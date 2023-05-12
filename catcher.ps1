@@ -109,7 +109,7 @@ function Copy-Schema {
         [string]$filePath,
         [bool]$overwrite
     )
-    $excludeFiles = @(".git")
+    $excludeFiles = @(".git", "recipe.yaml")
     if (-not $overwrite -and (Test-Path "$RimeUserDir\xkjd6.user.dict.yaml")) {
         # Remove-Item "$filePath\xkjd6.user.dict.yaml"
         $excludeFiles += "xkjd6.user.dict.yaml"
