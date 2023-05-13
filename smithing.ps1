@@ -111,7 +111,6 @@ function Copy-Schema {
     )
     $excludeFiles = @(".git", "recipe.yaml")
     if (-not $overwrite -and (Test-Path "$RimeUserDir\xkjd6.user.dict.yaml")) {
-        # Remove-Item "$filePath\xkjd6.user.dict.yaml"
         $excludeFiles += "xkjd6.user.dict.yaml"
     }
     Copy-Item -Recurse -Force "$filePath\*" $RimeUserDir -Exclude $excludeFiles
@@ -191,15 +190,16 @@ function Update-Control([object]$Control) {
 }
 
 [xml]$XAML = @"
-<Window xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height = "238" Width = "384" ResizeMode = "NoResize">
+<Window xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height = "276" Width = "384" ResizeMode = "NoResize">
     <Grid Name = "XMLGrid">
-        <Button Name = "Confirm" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "14,152,0,0" Content = "确定" />
-        <Button Name = "Cancel" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "194,152,0,0" Content = "取消" />
+        <Button Name = "Confirm" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "14,190,0,0" Content = "确定" />
+        <Button Name = "Cancel" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "194,190,0,0" Content = "取消" />
         <TextBlock Name = "Source" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,8,0,0" Text = "选择源" />
         <RadioButton Name = "GitHub" FontSize = "16" Height = "26" Width = "80" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "14,38,0,0" GroupName="Source" Content="GitHub" IsChecked = "True" />
         <RadioButton Name = "Gitee" FontSize = "16" Height = "26" Width = "80" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "194,38,0,0" GroupName="Source" Content="Gitee" />
         <CheckBox Name = "Overwrite" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,76,0,0" Content = "覆盖用户词典 (xkjd6.user.dict.yaml)" />
-        <CheckBox Name = "OverwriteDefault"  FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,114,0,0" Content = "覆盖 default.custom.yaml" />
+        <CheckBox Name = "OverwriteDefault" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,114,0,0" Content = "覆盖 default.custom.yaml" />
+        <TextBlock Name = "Book" xml:space="preserve" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,152,0,0"><Hyperlink Name = "JDRepo" NavigateUri="https://github.com/xkinput/Rime_JD">键道官方仓库</Hyperlink>    <Hyperlink Name = "BookLink" NavigateUri="https://pingshunhuangalex.gitbook.io/rime-xkjd/">键道详尽操作指南</Hyperlink></TextBlock>
     </Grid>
 </Window>
 "@
@@ -276,6 +276,15 @@ $Confirm.add_click({
     $Cancel.IsEnabled = $true
     $Overwrite.IsEnabled = $true
     $OverwriteDefault.IsEnabled = $true
+})
+
+$JDRepo.add_click({
+    $RepoWebUrl = if ($GitHub.IsChecked) { 'https://github.com/xkinput/Rime_JD' } else { 'https://gitee.com/xkinput/Rime_JD' }
+    [system.Diagnostics.Process]::start($RepoWebUrl)
+})
+
+$BookLink.add_click({
+    [system.Diagnostics.Process]::start('https://pingshunhuangalex.gitbook.io/rime-xkjd/')
 })
 
 $XMLForm.Add_Loaded({$XMLForm.Activate()})
