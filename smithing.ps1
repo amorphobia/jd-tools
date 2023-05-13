@@ -1,5 +1,5 @@
 #
-# 键道捕获器 - 为小狼毫下载和更新键道配方
+# 铸键术 - 为小狼毫下载和更新键道配方
 #
 # Copyright © 2023 Xuesong Peng <pengxuesong.cn@gmail.com>
 # ConvertTo-ImageSource: Copyright © 2016 Chris Carter
@@ -39,7 +39,7 @@ try {
 
 Write-Host "请稍候……"
 
-$AppTitle = "键道捕获器"
+$AppTitle = "铸键术"
 
 $defaultContent = @"
 patch:
