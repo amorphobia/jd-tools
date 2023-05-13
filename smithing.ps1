@@ -107,11 +107,18 @@ function Get-Jiandao {
 function Copy-Schema {
     param(
         [string]$filePath,
-        [bool]$overwrite
+        [bool]$overwrite,
+        [string]$luaOp
     )
     $excludeFiles = @(".git", "recipe.yaml")
     if (-not $overwrite -and (Test-Path "$RimeUserDir\xkjd6.user.dict.yaml")) {
         $excludeFiles += "xkjd6.user.dict.yaml"
+    }
+    if ($luaOp -ne "overwrite" -and (Test-Path "$RimeUserDir\rime.lua")) {
+        $excludeFiles += "rime.lua"
+    }
+    if ($luaOp -eq "append") {
+        [IO.File]::AppendAllText("$RimeUserDir\rime.lua", "-- 星空键道`n" + [System.IO.File]::ReadAllText("$filePath\rime.lua"))
     }
     Copy-Item -Recurse -Force "$filePath\*" $RimeUserDir -Exclude $excludeFiles
 }
@@ -190,25 +197,42 @@ function Update-Control([object]$Control) {
 }
 
 [xml]$XAML = @"
-<Window xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height = "276" Width = "384" ResizeMode = "NoResize">
+<Window xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height = "352" Width = "384" ResizeMode = "NoResize">
     <Grid Name = "XMLGrid">
-        <Button Name = "Confirm" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "14,190,0,0" Content = "确定" />
-        <Button Name = "Cancel" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "194,190,0,0" Content = "取消" />
+        <Button Name = "Confirm" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "14,266,0,0" Content = "确定" />
+        <Button Name = "Cancel" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "194,266,0,0" Content = "取消" />
         <TextBlock Name = "Source" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,8,0,0" Text = "选择源" />
         <RadioButton Name = "GitHub" FontSize = "16" Height = "26" Width = "80" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "14,38,0,0" GroupName="Source" Content="GitHub" IsChecked = "True" />
         <RadioButton Name = "Gitee" FontSize = "16" Height = "26" Width = "80" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "194,38,0,0" GroupName="Source" Content="Gitee" />
-        <CheckBox Name = "Overwrite" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,76,0,0" Content = "覆盖用户词典 (xkjd6.user.dict.yaml)" />
-        <CheckBox Name = "OverwriteDefault" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,114,0,0" Content = "覆盖 default.custom.yaml" />
-        <TextBlock Name = "Book" xml:space="preserve" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,152,0,0"><Hyperlink Name = "JDRepo" NavigateUri="https://github.com/xkinput/Rime_JD">键道官方仓库</Hyperlink>    <Hyperlink Name = "BookLink" NavigateUri="https://pingshunhuangalex.gitbook.io/rime-xkjd/">键道详尽操作指南</Hyperlink></TextBlock>
+        <TextBlock Name = "LuaTitle" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,76,0,0" Text = "如何处理 rime.lua" />
+        <ComboBox Name = "LuaOps" FontSize = "14" Height = "24" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,108,0,0" SelectedIndex = "0" />
+        <CheckBox Name = "Overwrite" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,152,0,0" Content = "覆盖用户词典 (xkjd6.user.dict.yaml)" />
+        <CheckBox Name = "OverwriteDefault" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,190,0,0" Content = "覆盖 default.custom.yaml" />
+        <TextBlock Name = "Book" xml:space="preserve" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,228,0,0"><Hyperlink Name = "JDRepo" NavigateUri="https://github.com/xkinput/Rime_JD">键道官方仓库</Hyperlink>    <Hyperlink Name = "BookLink" NavigateUri="https://pingshunhuangalex.gitbook.io/rime-xkjd/">键道详尽操作指南</Hyperlink></TextBlock>
     </Grid>
 </Window>
 "@
+
+$LuaOperations = @(
+    @("不作修改", "untouch"),
+    @("追加", "append"),
+    @("覆盖", "overwrite")
+)
 
 $XMLForm = [Windows.Markup.XamlReader]::Load((New-Object System.Xml.XmlNodeReader $XAML))
 $XAML.SelectNodes("//*[@Name]") | ForEach-Object { Set-Variable -Name ($_.Name) -Value $XMLForm.FindName($_.Name) -Scope Script }
 $XMLForm.Title = $AppTitle
 
 $XMLForm.Icon = [WinAPI.Utils]::ExtractIcon("shell32.dll", 43, $true) | ConvertTo-ImageSource
+
+$i = 0
+$ops = @()
+foreach($op in $LuaOperations) {
+    $ops += @(New-Object PsObject -Property @{ Text = $op[0]; Operation = $op[1]; Index = $i })
+    $i++
+}
+$LuaOps.ItemsSource = $ops
+$LuaOps.DisplayMemberPath = "Text"
 
 $Cancel.add_click({
     $XMLForm.Close()
@@ -253,7 +277,7 @@ $Confirm.add_click({
     }
 
     if (-not $cancelled) {
-        Copy-Schema $filePath -overwrite $Overwrite.IsChecked
+        Copy-Schema $filePath -overwrite $Overwrite.IsChecked -luaOp $LuaOps.SelectedValue.Operation
         Remove-Item -Recurse -Force $DestPath
         if ($OverwriteDefault.IsChecked -or -not (Test-Path "$RimeUserDir\default.custom.yaml")) {
             Set-DefaultContent
