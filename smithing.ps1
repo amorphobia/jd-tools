@@ -110,15 +110,16 @@ function Copy-Schema {
         [bool]$overwrite,
         [string]$luaOp
     )
-    $excludeFiles = @(".git", "recipe.yaml")
+    $excludeFiles = @(".git", "recipe.yaml", "rime.lua")
     if (-not $overwrite -and (Test-Path "$RimeUserDir\xkjd6.user.dict.yaml")) {
         $excludeFiles += "xkjd6.user.dict.yaml"
     }
-    if ($luaOp -ne "overwrite" -and (Test-Path "$RimeUserDir\rime.lua")) {
-        $excludeFiles += "rime.lua"
-    }
+
     if ($luaOp -eq "append") {
         [IO.File]::AppendAllText("$RimeUserDir\rime.lua", "-- ÐÇ¿Õ¼üµÀ`n" + [System.IO.File]::ReadAllText("$filePath\rime.lua"))
+    }
+    if ($luaOp -eq "overwrite" -or -not (Test-Path "$RimeUserDir\rime.lua")) {
+        [IO.File]::WriteAllText("$RimeUserDir\rime.lua", "-- ÐÇ¿Õ¼üµÀ`n" + [System.IO.File]::ReadAllText("$filePath\rime.lua"))
     }
     Copy-Item -Recurse -Force "$filePath\*" $RimeUserDir -Exclude $excludeFiles
 }
