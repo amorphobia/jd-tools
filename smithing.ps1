@@ -1,33 +1,34 @@
+ï»¿#
+# é“¸é”®æœ¯ - ä¸ºå°ç‹¼æ¯«ä¸‹è½½å’Œæ›´æ–°é”®é“é…æ–¹
 #
-# Öı¼üÊõ - ÎªĞ¡ÀÇºÁÏÂÔØºÍ¸üĞÂ¼üµÀÅä·½
-#
-# Copyright 0„8 2023 Xuesong Peng <pengxuesong.cn@gmail.com>
-# ConvertTo-ImageSource: Copyright 0„8 2016 Chris Carter
-# WPF GUI support: Copyright 0„8 2019-2023 Pete Batard <pete@akeo.ie>
+# Copyright Â© 2023 Xuesong Peng <pengxuesong.cn@gmail.com>
+# ConvertTo-ImageSource: Copyright Â© 2016 Chris Carter
+# WPF GUI support: Copyright Â© 2019-2023 Pete Batard <pete@akeo.ie>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# ±¾³ÌĞòÊÇÃâ·ÑÈí¼ş£ºÄú¿ÉÒÔ¸ù¾İ×ÔÓÉÈí¼ş»ù½ğ»á·¢²¼µÄ GNU Í¨ÓÃ¹«¹²Ğí¿ÉÖ¤£¨µÚÈı°æ»ò
-# ÈÎºÎÄúÖ¸¶¨µÄ¸üĞÂ°æ±¾£©ÖĞµÄÌõ¿îÖØĞÂ·Ö·¢ºÍ£¯»òĞŞ¸ÄËü¡£
+# æœ¬ç¨‹åºæ˜¯å…è´¹è½¯ä»¶ï¼šæ‚¨å¯ä»¥æ ¹æ®è‡ªç”±è½¯ä»¶åŸºé‡‘ä¼šå‘å¸ƒçš„ GNU é€šç”¨å…¬å…±è®¸å¯è¯ï¼ˆç¬¬ä¸‰ç‰ˆæˆ–
+# ä»»ä½•æ‚¨æŒ‡å®šçš„æ›´æ–°ç‰ˆæœ¬ï¼‰ä¸­çš„æ¡æ¬¾é‡æ–°åˆ†å‘å’Œï¼æˆ–ä¿®æ”¹å®ƒã€‚
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# ·Ö·¢¸Ã³ÌĞòÊÇÏ£ÍûËüÓĞÓÃ£¬µ«²»Ìá¹©ÈÎºÎ±£Ö¤£»ÉõÖÁÃ»ÓĞÕë¶ÔÌØ¶¨ÓÃÍ¾µÄÊÊÏúĞÔ»òÊÊÓÃĞÔµÄ
-# Ä¬Ê¾±£Ö¤¡£ÓĞ¹ØÏêÏ¸ĞÅÏ¢£¬Çë²ÎÔÄ GNU Í¨ÓÃ¹«¹²Ğí¿ÉÖ¤¡£
+# åˆ†å‘è¯¥ç¨‹åºæ˜¯å¸Œæœ›å®ƒæœ‰ç”¨ï¼Œä½†ä¸æä¾›ä»»ä½•ä¿è¯ï¼›ç”šè‡³æ²¡æœ‰é’ˆå¯¹ç‰¹å®šç”¨é€”çš„é€‚é”€æ€§æˆ–é€‚ç”¨æ€§çš„
+# é»˜ç¤ºä¿è¯ã€‚æœ‰å…³è¯¦ç»†ä¿¡æ¯ï¼Œè¯·å‚é˜… GNU é€šç”¨å…¬å…±è®¸å¯è¯ã€‚
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ÄúÓ¦¸ÃÒÑËæ±¾³ÌĞòÊÕµ½ GNU Í¨ÓÃ¹«¹²Ğí¿ÉÖ¤µÄ¸±±¾¡£Èç¹ûÃ»ÓĞ£¬Çë²ÎÔÄ <http://www.gnu.org/licenses/>
+# æ‚¨åº”è¯¥å·²éšæœ¬ç¨‹åºæ”¶åˆ° GNU é€šç”¨å…¬å…±è®¸å¯è¯çš„å‰¯æœ¬ã€‚å¦‚æœæ²¡æœ‰ï¼Œè¯·å‚é˜… <http://www.gnu.org/licenses/>
 #
-
-# ×¢Òâ£ºº¬ÓĞ·Ç ASCII ±àÂëµÄÎÄ×Ö£¬ĞèÒª½«±àÂë¸ñÊ½ÉèÖÃÎª ANSI (GB18030) »ò´ø BOM µÄ UTF-8
+# NOTE: There are non-ASCII characters in this script. It's required that the encoding
+# of the script to be ANSI (GB18030) or UTF-8 with BOM
+# æ³¨æ„ï¼šå«æœ‰é ASCII ç¼–ç çš„æ–‡å­—ï¼Œéœ€è¦å°†ç¼–ç æ ¼å¼è®¾ç½®ä¸º ANSI (GB18030) æˆ–å¸¦ BOM çš„ UTF-8
 
 param(
     [string]$RimeUserDir = "$env:APPDATA\Rime\"
@@ -37,9 +38,9 @@ try {
     [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 } catch {}
 
-Write-Host "ÇëÉÔºò¡­¡­"
+Write-Host "è¯·ç¨å€™â€¦â€¦"
 
-$AppTitle = "Öı¼üÊõ"
+$AppTitle = "é“¸é”®æœ¯"
 
 $defaultContent = @"
 patch:
@@ -92,8 +93,8 @@ function Get-Jiandao {
 
                 $ratio = [Int32](100 * $progress.IndexedObjects / $progress.TotalObjects)
 
-                $XMLForm.Title = "´«ÊäÖĞ¡­¡­ $ratio% ÒÑÍê³É"
-                Write-Progress -Activity "´«ÊäÖĞ¡­¡­" -status "$ratio% ÒÑÍê³É" -PercentComplete $ratio
+                $XMLForm.Title = "ä¼ è¾“ä¸­â€¦â€¦ $ratio% å·²å®Œæˆ"
+                Write-Progress -Activity "ä¼ è¾“ä¸­â€¦â€¦" -status "$ratio% å·²å®Œæˆ" -PercentComplete $ratio
 
                 return $true
             }
@@ -116,10 +117,10 @@ function Copy-Schema {
     }
 
     if ($luaOp -eq "append") {
-        [IO.File]::AppendAllText("$RimeUserDir\rime.lua", "-- ĞÇ¿Õ¼üµÀ`n" + [System.IO.File]::ReadAllText("$filePath\rime.lua"))
+        [IO.File]::AppendAllText("$RimeUserDir\rime.lua", "-- æ˜Ÿç©ºé”®é“`n" + [System.IO.File]::ReadAllText("$filePath\rime.lua"))
     }
     if ($luaOp -eq "overwrite" -or -not (Test-Path "$RimeUserDir\rime.lua")) {
-        [IO.File]::WriteAllText("$RimeUserDir\rime.lua", "-- ĞÇ¿Õ¼üµÀ`n" + [System.IO.File]::ReadAllText("$filePath\rime.lua"))
+        [IO.File]::WriteAllText("$RimeUserDir\rime.lua", "-- æ˜Ÿç©ºé”®é“`n" + [System.IO.File]::ReadAllText("$filePath\rime.lua"))
     }
     Copy-Item -Recurse -Force "$filePath\*" $RimeUserDir -Exclude $excludeFiles
 }
@@ -129,7 +130,7 @@ function Set-DefaultContent {
 }
 
 # From https://www.powershellgallery.com/packages/IconForGUI/1.5.2
-# Copyright 0„8 2016 Chris Carter. All rights reserved.
+# Copyright Â© 2016 Chris Carter. All rights reserved.
 # License: https://creativecommons.org/licenses/by-sa/4.0/
 function ConvertTo-ImageSource {
     [CmdletBinding()]
@@ -150,8 +151,8 @@ function ConvertTo-ImageSource {
 }
 
 # WPF GUI support From https://github.com/pbatard/Fido
-# Copyright 0„8 2019-2023 Pete Batard <pete@akeo.ie>
-# License£º https://github.com/pbatard/Fido/blob/master/LICENSE.txt
+# Copyright Â© 2019-2023 Pete Batard <pete@akeo.ie>
+# Licenseï¼š https://github.com/pbatard/Fido/blob/master/LICENSE.txt
 $Drawing_Assembly = "System.Drawing"
 # PowerShell 7 altered the name of the Drawing assembly...
 if ($host.version -ge "7.0") {
@@ -200,24 +201,24 @@ function Update-Control([object]$Control) {
 [xml]$XAML = @"
 <Window xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height = "352" Width = "384" ResizeMode = "NoResize">
     <Grid Name = "XMLGrid">
-        <Button Name = "Confirm" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "14,266,0,0" Content = "È·¶¨" />
-        <Button Name = "Cancel" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "194,266,0,0" Content = "È¡Ïû" />
-        <TextBlock Name = "Source" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,8,0,0" Text = "Ñ¡ÔñÔ´" />
+        <Button Name = "Confirm" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "14,266,0,0" Content = "ç¡®å®š" />
+        <Button Name = "Cancel" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "194,266,0,0" Content = "å–æ¶ˆ" />
+        <TextBlock Name = "Source" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,8,0,0" Text = "é€‰æ‹©æº" />
         <RadioButton Name = "GitHub" FontSize = "16" Height = "26" Width = "80" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "14,38,0,0" GroupName="Source" Content="GitHub" IsChecked = "True" />
         <RadioButton Name = "Gitee" FontSize = "16" Height = "26" Width = "80" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "194,38,0,0" GroupName="Source" Content="Gitee" />
-        <TextBlock Name = "LuaTitle" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,76,0,0" Text = "ÈçºÎ´¦Àí rime.lua" />
+        <TextBlock Name = "LuaTitle" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,76,0,0" Text = "å¦‚ä½•å¤„ç† rime.lua" />
         <ComboBox Name = "LuaOps" FontSize = "14" Height = "24" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,108,0,0" SelectedIndex = "0" />
-        <CheckBox Name = "Overwrite" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,152,0,0" Content = "¸²¸ÇÓÃ»§´Êµä (xkjd6.user.dict.yaml)" />
-        <CheckBox Name = "OverwriteDefault" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,190,0,0" Content = "¸²¸Ç default.custom.yaml" />
-        <TextBlock Name = "Book" xml:space="preserve" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,228,0,0"><Hyperlink Name = "JDRepo" NavigateUri="https://github.com/xkinput/Rime_JD">¼üµÀ¹Ù·½²Ö¿â</Hyperlink>    <Hyperlink Name = "BookLink" NavigateUri="https://pingshunhuangalex.gitbook.io/rime-xkjd/">¼üµÀÏê¾¡²Ù×÷Ö¸ÄÏ</Hyperlink></TextBlock>
+        <CheckBox Name = "Overwrite" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,152,0,0" Content = "è¦†ç›–ç”¨æˆ·è¯å…¸ (xkjd6.user.dict.yaml)" />
+        <CheckBox Name = "OverwriteDefault" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,190,0,0" Content = "è¦†ç›– default.custom.yaml" />
+        <TextBlock Name = "Book" xml:space="preserve" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,228,0,0"><Hyperlink Name = "JDRepo" NavigateUri="https://github.com/xkinput/Rime_JD">é”®é“å®˜æ–¹ä»“åº“</Hyperlink>    <Hyperlink Name = "BookLink" NavigateUri="https://pingshunhuangalex.gitbook.io/rime-xkjd/">é”®é“è¯¦å°½æ“ä½œæŒ‡å—</Hyperlink></TextBlock>
     </Grid>
 </Window>
 "@
 
 $LuaOperations = @(
-    @("²»×÷ĞŞ¸Ä", "untouch"),
-    @("×·¼Ó", "append"),
-    @("¸²¸Ç", "overwrite")
+    @("ä¸ä½œä¿®æ”¹", "untouch"),
+    @("è¿½åŠ ", "append"),
+    @("è¦†ç›–", "overwrite")
 )
 
 $XMLForm = [Windows.Markup.XamlReader]::Load((New-Object System.Xml.XmlNodeReader $XAML))
@@ -246,7 +247,7 @@ $Confirm.add_click({
     Update-Control($Confirm)
     Update-Control($Cancel)
 
-    $XMLForm.Title = "ÇëÉÔºò¡­¡­"
+    $XMLForm.Title = "è¯·ç¨å€™â€¦â€¦"
     Update-Control($XMLForm)
 
     $RepoHost = if ($GitHub.IsChecked) { "github.com" } else { "gitee.com" }
@@ -263,7 +264,7 @@ $Confirm.add_click({
         $url = "https://github.com/xkinput/Rime_JD/archive/refs/heads/plum.zip"
         $filePath = Get-Jiandao -Url $url -DestPath $DestPath -DirectDownload
     } else {
-        $msgBoxInput = [System.Windows.MessageBox]::Show("½«Ê¹ÓÃ±¾¹¤¾ß×Ô´øµÄ git ¿ËÂ¡£¬¿ÉÄÜ»áÔì³É´°¿Ú¼ÙËÀ£¬ÇëÄÍĞÄµÈ´ı", "¾¯¸æ£ºÎ´ÔÚÏµÍ³Â·¾¶ÖĞÕÒµ½ git", "OKCancel")
+        $msgBoxInput = [System.Windows.MessageBox]::Show("å°†ä½¿ç”¨æœ¬å·¥å…·è‡ªå¸¦çš„ git å…‹éš†ï¼Œå¯èƒ½ä¼šé€ æˆçª—å£å‡æ­»ï¼Œè¯·è€å¿ƒç­‰å¾…", "è­¦å‘Šï¼šæœªåœ¨ç³»ç»Ÿè·¯å¾„ä¸­æ‰¾åˆ° git", "OKCancel")
         if ($msgBoxInput -eq "OK") {
             $filePath = Get-Jiandao -Url $RepoUrl -DestPath $DestPath -Branch $RepoBranch
         } else {
@@ -280,7 +281,7 @@ $Confirm.add_click({
         if ($OverwriteDefault.IsChecked -or -not (Test-Path "$RimeUserDir\default.custom.yaml")) {
             Set-DefaultContent
         }
-        $deployBox = [System.Windows.MessageBox]::Show("ÊÇ·ñÒªÏÖÔÚÖØĞÂ²¿Êğ£¿", "¸üĞÂÍê±Ï", "OKCancel")
+        $deployBox = [System.Windows.MessageBox]::Show("æ˜¯å¦è¦ç°åœ¨é‡æ–°éƒ¨ç½²ï¼Ÿ", "æ›´æ–°å®Œæ¯•", "OKCancel")
         if ($deployBox -eq "OK") {
             $weaselPath = (Get-ChildItem "${env:ProgramFiles(x86)}\Rime\" | Where-Object Name -match '^weasel-[\d\.]+$')[0].FullName
             if (Test-Path "$weaselPath\WeaselDeployer.exe") {

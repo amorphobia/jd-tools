@@ -14,6 +14,10 @@ LibGit2Sharp.dll
 
 使用时，右键点击 `smithing.ps1` 选择「使用 PowerShell 运行」，或在 PowerShell 命令行直接运行即可。
 
+### 注意
+
+脚本含有非 ASCII 字符，由于 Windows 系统限制，脚本编码必须为 ANSI (GB18030) 或带 BOM 的 UTF-8。
+
 ## 开源许可
 
 本仓库使用 [GPL-3.0](https://github.com/amorphobia/jd-tools/blob/master/LICENSE) 或更新版本的许可
