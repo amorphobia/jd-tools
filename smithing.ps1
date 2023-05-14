@@ -240,12 +240,9 @@ $Cancel.add_click({
 })
 
 $Confirm.add_click({
-    $GitHub.IsEnabled = $false
-    $Gitee.IsEnabled = $false
-    $Confirm.IsEnabled = $false
-    $Cancel.IsEnabled = $false
-    $Overwrite.IsEnabled = $false
-    $OverwriteDefault.IsEnabled = $false
+    foreach ($child in $XMLGrid.Children) {
+        $child.IsEnabled = $false
+    }
     Update-Control($Confirm)
     Update-Control($Cancel)
 
@@ -295,12 +292,9 @@ $Confirm.add_click({
 
     $XMLForm.Title = $AppTitle
 
-    $GitHub.IsEnabled = $true
-    $Gitee.IsEnabled = $true
-    $Confirm.IsEnabled = $true
-    $Cancel.IsEnabled = $true
-    $Overwrite.IsEnabled = $true
-    $OverwriteDefault.IsEnabled = $true
+    foreach ($child in $XMLGrid.Children) {
+        $child.IsEnabled = $true
+    }
 })
 
 $JDRepo.add_click({
