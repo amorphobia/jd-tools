@@ -1,6 +1,12 @@
 # 星空键道工具
 
+为[星空键道](https://github.com/xkinput/Rime_JD)输入方案开发的小工具，目前已有[铸键术](#铸键术)。
+
+目前程序正在开发中，若遇到问题，请[提出 issue](https://github.com/amorphobia/jd-tools/issues/new/choose)。
+
 ## 铸键术
+
+使用 PowerShell 脚本编写，调用系统内置的 WPF 图形框架，理论上支持 Windows 10 和 Windows 11 主流版本。
 
 ![铸键术界面](./pic/smithing-snapshot.png)
 
@@ -16,7 +22,13 @@ LibGit2Sharp.dll
 
 ### 注意
 
-脚本含有非 ASCII 字符，由于 Windows 系统限制，脚本编码必须为 ANSI (GB18030) 或带 BOM 的 UTF-8。
+若运行时报错「在此系统上禁止运行脚本」，请先在 PowerShell 里执行以下命令：
+
+```powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+「铸键术」脚本含有非 ASCII 字符，由于 Windows 系统限制，脚本编码必须为 ANSI (GB18030) 或带 BOM 的 UTF-8。为了方便现代编辑器，默认为带 BOM 的 UTF-8 编码。如果需要在老旧系统上运行（如 Windows 7），可能需要自行转为 GB18030 编码。
 
 ## 开源许可
 
