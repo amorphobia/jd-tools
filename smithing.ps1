@@ -199,18 +199,19 @@ function Update-Control([object]$Control) {
 }
 
 [xml]$XAML = @"
-<Window xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height = "352" Width = "384" ResizeMode = "NoResize">
+<Window xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" Height = "390" Width = "384" ResizeMode = "NoResize">
     <Grid Name = "XMLGrid">
-        <Button Name = "Confirm" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "14,266,0,0" Content = "确定" />
-        <Button Name = "Cancel" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "194,266,0,0" Content = "取消" />
+        <Button Name = "Confirm" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "14,304,0,0" Content = "确定" />
+        <Button Name = "Cancel" FontSize = "16" Height = "26" Width = "160" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "194,304,0,0" Content = "取消" />
         <TextBlock Name = "Source" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,8,0,0" Text = "选择源" />
         <RadioButton Name = "GitHub" FontSize = "16" Height = "26" Width = "80" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "14,38,0,0" GroupName="Source" Content="GitHub" IsChecked = "True" />
         <RadioButton Name = "Gitee" FontSize = "16" Height = "26" Width = "80" HorizontalAlignment = "Left" VerticalAlignment = "Top" Margin = "194,38,0,0" GroupName="Source" Content="Gitee" />
-        <TextBlock Name = "LuaTitle" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,76,0,0" Text = "如何处理 rime.lua" />
-        <ComboBox Name = "LuaOps" FontSize = "14" Height = "24" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,108,0,0" SelectedIndex = "0" />
-        <CheckBox Name = "Overwrite" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,152,0,0" Content = "覆盖用户词典 (xkjd6.user.dict.yaml)" />
-        <CheckBox Name = "OverwriteDefault" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,190,0,0" Content = "覆盖 default.custom.yaml" />
-        <TextBlock Name = "Book" xml:space="preserve" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,228,0,0"><Hyperlink Name = "JDRepo" NavigateUri="https://github.com/xkinput/Rime_JD">键道官方仓库</Hyperlink>    <Hyperlink Name = "BookLink" NavigateUri="https://pingshunhuangalex.gitbook.io/rime-xkjd/">键道详尽操作指南</Hyperlink></TextBlock>
+        <CheckBox Name = "Merge" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,76,0,0" Content = "合并官方词典" />
+        <TextBlock Name = "LuaTitle" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,114,0,0" Text = "如何处理 rime.lua" />
+        <ComboBox Name = "LuaOps" FontSize = "14" Height = "24" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "16,146,0,0" SelectedIndex = "0" />
+        <CheckBox Name = "Overwrite" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,190,0,0" Content = "覆盖用户词典 (xkjd6.user.dict.yaml)" />
+        <CheckBox Name = "OverwriteDefault" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,228,0,0" Content = "覆盖用户配置 (default.custom.yaml)" />
+        <TextBlock Name = "Book" xml:space="preserve" FontSize = "16" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top" Margin = "14,266,0,0"><Hyperlink Name = "JDRepo" NavigateUri="https://github.com/xkinput/Rime_JD">键道官方仓库</Hyperlink>    <Hyperlink Name = "BookLink" NavigateUri="https://pingshunhuangalex.gitbook.io/rime-xkjd/">键道详尽操作指南</Hyperlink></TextBlock>
     </Grid>
 </Window>
 "@
@@ -253,7 +254,7 @@ $Confirm.add_click({
     $RepoHost = if ($GitHub.IsChecked) { "github.com" } else { "gitee.com" }
     $RepoUrl = "https://" + $RepoHost + "/xkinput/Rime_JD.git"
     $DestPath = "$env:TEMP\jd"
-    $RepoBranch = "plum"
+    $RepoBranch = if ($Merge.IsChecked) { "min" } else { "plum" }
     $gitPresent = (Get-Command "git.exe" -ErrorAction SilentlyContinue) -ne $null
 
     $filePath = ""
@@ -261,7 +262,7 @@ $Confirm.add_click({
     if ($gitPresent) {
         $filePath = Get-Jiandao -Url $RepoUrl -DestPath $DestPath -Branch $RepoBranch -SystemGit
     } elseif ($GitHub.IsChecked) {
-        $url = "https://github.com/xkinput/Rime_JD/archive/refs/heads/plum.zip"
+        $url = "https://github.com/xkinput/Rime_JD/archive/refs/heads/" + $RepoBranch + ".zip"
         $filePath = Get-Jiandao -Url $url -DestPath $DestPath -DirectDownload
     } else {
         $msgBoxInput = [System.Windows.MessageBox]::Show("将使用本工具自带的 git 克隆，可能会造成窗口假死，请耐心等待", "警告：未在系统路径中找到 git", "OKCancel")
